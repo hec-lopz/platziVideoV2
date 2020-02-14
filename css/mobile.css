@@ -1,0 +1,180 @@
+
+
+@media screen and (max-width: 1039px) {
+  .description-box {
+    grid-template-areas: "title tags"
+                          "action-buttons tags";
+  }
+  .keywords {
+    align-content: center;
+    justify-content: center;
+  }
+  .actions {
+    justify-content: space-around;
+    /* padding-left: 10px; */
+  }
+  .actions input {
+    margin-right: 10px;
+  }
+  .action-button {
+    margin-right: 10px;
+  }
+
+}
+@media screen and (max-width: 768px) {
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    grid-template-rows: 50px 2fr minmax(auto-fill, 1.5fr) 2fr;
+    grid-template-areas:   	"header header"
+                    "player player"
+                   "description description"
+                   "comments suggestions" ;
+  }
+  .side-bar {
+    display: none;
+  }
+  .video-container {
+    padding-bottom: 56.25%;
+  }
+
+  .smart-header {
+    grid-area: header;
+    display: flex;
+    background-color: var(--blue-color);
+    color: white;
+    align-items: center;
+    padding: 5px 0 5px 25px;
+    /* position: absolute; */
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+
+  }
+  .logo {
+    margin: 0;
+    padding-left: 10px;
+  }
+  .menu {
+    position: fixed;
+    background-color: var(--blue-color);
+    color: white;
+    z-index: 1;
+    padding-top: 60px;
+    padding-left: 10px;
+    left: -260px;
+    width: 250px;
+
+  }
+  .burger-button {
+    height: 24px; 
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .description-box {
+    grid-template-columns: 2fr 1fr;
+
+  }
+  .actions {
+    justify-content: start;
+    padding-left: 20px;
+    font-size: .9em;
+  }
+  .video-title {
+    font-size: 1.2em;
+  }
+  .keywords {
+    align-items: center;
+  }
+  .content-box {
+    font-size: .9em;
+  
+}
+
+@media screen and (max-width: 480px) {
+  .smart-header {
+    height: 40px;
+  }
+  .content-box input {
+    width: 50%;
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  .comment-item {
+    margin: 20px;
+  }
+  .profile-container {
+    margin: 0px;
+    padding-right: 15px;
+    margin-right: 7px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    grid-template-rows: 50px 2fr minmax(auto-fill, 1.5fr) 2fr 2fr;
+    grid-template-areas:   	"header header"
+                    "player player"
+                   "description description"
+                   "suggestions suggestions"
+                   "comments comments" ;
+  }
+  .description-box {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "title title"
+                          "action-buttons tags";
+    justify-items: start;
+  }
+  .actions {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 10px ;
+  }
+  .action-button {
+    width: 45px;
+    margin: 0;
+    font-size: 12px;
+  }
+  input.action-button {
+    width: 100%;
+    padding: 5px 10px;
+    margin: 0;
+  }
+
+  .video-info {
+    grid-area: title;
+    width: 300px;
+    padding-top: 5px
+  }
+  .suggest-item a {
+    display: flex;
+    align-items: center;
+  }
+  .suggest-item .image-container {
+    width: 75%;
+    height: 75px;
+    margin: 3px;
+
+  }
+
+  .comment-box {
+    padding-left: 3px;
+    padding-top: 0;
+  }
+  .comment-item {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .comment-container input {
+    background-position: left;
+    width: 50%;
+    margin-left: 15px;
+  }
+  .profile-container {
+    padding: 0;
+  }
+}}

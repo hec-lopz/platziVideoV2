@@ -1,0 +1,196 @@
+@font-face {
+  font-family: 'Platzivideo';
+  src:  url('../fonts/Platzivideo.eot?5f6zq0');
+  src:  url('../fonts/Platzivideo.eot?5f6zq0#iefix') format('embedded-opentype'),
+    url('../fonts/Platzivideo.ttf?5f6zq0') format('truetype'),
+    url('../fonts/Platzivideo.woff?5f6zq0') format('woff'),
+    url('../fonts/Platzivideo.svg?5f6zq0#Platzivideo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Platzivideo' !important;
+  /* speak: none; */
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arrow-left:before {
+  content: "\e900";
+}
+.icon-download-cloud:before {
+  content: "\e901";
+}
+.icon-menu:before {
+  content: "\e903";
+}
+.icon-share-2:before {
+  content: "\e902";
+}
+
+
+:root {
+  --black-color: #464646;
+  --red-color:  rgb(255,0,5);
+  --blue-color: #000033;
+  --gray-color: #f0f0f0;
+  --background-gray-color: #f5f5f5;
+
+  --thumb-pic: url('https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png');
+}
+
+body, html, h1, h2, h3, p, figure {
+  margin: 0;
+  padding: 0;
+}
+a { 
+  text-decoration: none;
+  color: inherit;
+}
+body {
+  font-family: 'Lato', sans-serif;
+}
+.grid-layout {
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: 75px 2fr;
+  grid-template-areas: "sidebar header"
+                        "sidebar main";
+}
+
+.smart-header {
+  display: none;
+}
+.menu {
+  display: none;
+}
+/* Empieza SideBar */
+.side-bar {
+  grid-area: sidebar;
+  height: 100vh;
+  background-color: #000033;
+  color: white;
+  padding-left: 20px;
+  padding-top: 10px;
+  display: flex;
+  flex-flow: column;
+  justify-content: start;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+.logo {
+	font-size: 34px;
+	font-family: 'Mitr', sans-serif;
+	margin-bottom: 30px;
+}
+.logo span {
+	color: var(--red-color);
+}
+.list-item {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.list-item:hover {
+  background-color: #4949ad;
+}
+.friend-list {
+	list-style: none;
+  padding-left: 20px;
+  /* height: 400px; */
+  /* overflow: scroll; */
+}
+.profile-container {
+	border: 1px solid #000033;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+	overflow: hidden;
+  margin-right: 10px;
+  background-color: black;
+}
+.profile-container img {
+width: 50px;
+object-fit: cover;
+}
+.friend-list li{
+	display: flex;
+	align-items: center;
+}
+/* Termina SideBar */
+
+/******************************** Empieza Main-Header */
+.main-header {
+  grid-area: header;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  /* padding-top: 20px; */
+  box-sizing: border-box;
+  color: var(--black-color);
+  background-color: var(--background-gray-color);
+}
+#header__search-bar{
+  width: 300px;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--gray-color);
+  font-size: 16px;
+  padding-left: 20px;
+}
+.username {
+  display: flex;
+  color: var(--black-color);
+  align-items: center;
+}
+.username__photo {
+  margin-right: 10px;
+  /* border: 1px solid black; */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-image: var(--thumb-pic);
+  background-position: center;
+  background-size: cover;
+}
+
+/******************************** Empieza Main */
+.main-content {
+  grid-area: main;
+  color: var(--black-color);
+  padding: 10px;
+}
+.movies-container {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.movies-container__catch-phrase {
+  color: var(--black-color);
+  font-weight: lighter;
+  font-size: 1.2em;
+}
+.movies-container__title {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+.movies-container__listings{
+  display: flex;
+  align-items: center;
+}
+.listings__loading-gif{
+  width: 75px;
+}

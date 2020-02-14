@@ -1,0 +1,6 @@
+Loader GIF
+https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif
+thumb PNG
+https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png
+favicon PNG
+https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/favicon.PNG
