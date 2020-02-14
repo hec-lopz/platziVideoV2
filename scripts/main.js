@@ -1,4 +1,7 @@
 const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
+let action_list
+let drama_list
+let animation_list
 
 
 (async function load(){
@@ -8,7 +11,10 @@ const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
     const movie_data = await response.json()
     return movie_data
   }
-  const ACTION_LIST = await getMovieData('action')
-  console.log('actionList', ACTION_LIST)
-
+  action_list = await getMovieData('action')
+  
+  drama_list = await getMovieData('drama')
+  
+  animation_list = await getMovieData('animation')
+  
 })()
