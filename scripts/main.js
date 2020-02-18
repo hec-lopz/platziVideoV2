@@ -1,7 +1,4 @@
 const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
-let action_list
-let drama_list
-let animation_list
 
 
 (async function load(){
@@ -12,9 +9,21 @@ let animation_list
     return movie_data
   }
   action_list = await getMovieData('action')
-  
   drama_list = await getMovieData('drama')
-  
   animation_list = await getMovieData('animation')
+
+  const $action_container = document.getElementById('action_container')
+  const $drama_container = document.getElementById('drama_container')
+  const $animation_container = document.getElementById('animation_container')
+
+  function generateHTMLTemplate( ) {
+    return `<div class="listings__movie-item">
+              <figure class="movie-item__cover">
+                <img src="" alt="" class="cover-image">
+              </figure>
+              <h4 class="movie-item__title">Título de la película</h4>
+            </div>`
+  }
+
   
 })()
