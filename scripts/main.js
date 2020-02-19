@@ -16,9 +16,11 @@ const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
   const $drama_container = document.getElementById('drama_container')
   const $animation_container = document.getElementById('animation_container')
 
-  test = action_list.data.movies.forEach(movie => {
+  action_list.data.movies.forEach(movie => {
     const HTMLString = generateHTMLTemplate(movie)
-    $action_container.innerHTML += HTMLString
+    const html = document.implementation.createHTMLDocument()
+    html.body.innerHTML = HTMLString
+    $action_container.append(html.body.children[0])
     debugger
     console.log(HTMLString)
   });

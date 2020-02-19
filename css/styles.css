@@ -52,6 +52,7 @@
 body, html, h1, h2, h3, h4, p, figure {
   margin: 0;
   padding: 0;
+  overflow: none;
 }
 a { 
   text-decoration: none;
@@ -63,6 +64,7 @@ body {
 .grid-layout {
   position: relative;
   display: grid;
+  height: 100vh;
   grid-template-columns: 300px 1fr;
   grid-template-rows: 75px 2fr;
   grid-template-areas: "sidebar header"
@@ -91,6 +93,10 @@ body {
   bottom: 0;
   left: 0;
   box-sizing: border-box;
+  overflow: auto;
+}
+.song-list {
+  overflow: auto;
 }
 .logo {
 	font-size: 34px;
@@ -111,7 +117,7 @@ body {
 	list-style: none;
   padding-left: 20px;
   /* height: 400px; */
-  /* overflow: scroll; */
+  overflow: auto;
 }
 .profile-container {
 	border: 1px solid #000033;
@@ -173,6 +179,8 @@ object-fit: cover;
   grid-area: main;
   color: var(--black-color);
   padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
 }
 .movies-container {
   font-size: 12px;
@@ -190,8 +198,8 @@ object-fit: cover;
 .movies-container__listings{
   display: flex;
   align-items: center;
-  overflow: scroll;
-  width: 75vw;
+  overflow: auto;
+  /* width: 75vw; */
 }
 .listings__loading-gif{
   width: 75px;
