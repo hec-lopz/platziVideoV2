@@ -70,7 +70,7 @@ body {
   grid-template-areas: "sidebar main"
                         "sidebar featuring";
 }
-.home.search-active {
+.grid-layout.search-active {
   grid-template-rows: 1fr 150px;
 }
 
@@ -233,4 +233,27 @@ object-fit: cover;
 }
 .movie-item__title {
   font-size: 1em;
+}
+
+
+#featuring {
+  background: linear-gradient(to right, #ff0000, #ff458b);
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding-left: 100px;
+  color: white;
+  grid-area: featuring;
+}
+
+.featuring-image {
+  margin-right: 20px;
+}
+
+.featuring-title {
+  margin: 10px;
+}
+.featuring-album {
+  font-size: 1.3em;
+  margin: 10px;
 }
