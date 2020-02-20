@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700|Mitr:400,700&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/modal.css">
   <link rel="shortcut icon" href="https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/favicon.PNG" type="image/png">
   <title>PlatziVideo</title>
 </head>
@@ -133,42 +134,60 @@
     <!-- Termina Sidebar -->
 
     <!-- Empieza Header -->
-    <header class="main-header">
-      <form action="">
-        <input type="text" placeholder="Busca tu género favorito" id="header__search-bar">
-      </form>
-      <div class="username">
-        <figure class="username__photo"></figure>
-        <span class="username__name">Hector Lopez</span>
-
-      </div>
-    </header>
-
+    
     <!-- Empieza Main Section -->
     <main class="main-content">
-      <section class="movies-container">
-        <h3 class="movies-container__catch-phrase">A los golpes</h3>
-        <h2 class="movies-container__title">Acción</h2>
-        <div id='action_container' class="movies-container__listings">
-          <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
-          
+      <header class="main-header">
+        <form id="form" action="">
+          <input type="text" name='name' placeholder="Busca tu género favorito" id="header__search-bar">
+        </form>
+        <div class="username">
+          <figure class="username__photo"></figure>
+          <span class="username__name">Hector Lopez</span>
+  
         </div>
-      </section>
-      <section class="movies-container">
-        <h3 class="movies-container__catch-phrase">Para llorar</h3>
-        <h2 class="movies-container__title">Drama</h2>
-        <div id="drama_container" class="movies-container__listings">
-          <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
-        </div>
-      </section>
-      <section class="movies-container">
-        <h3 class="movies-container__catch-phrase">Para toda la familia</h3>
-        <h2 class="movies-container__title">Animación</h2>
-        <div id="animation_container" class="movies-container__listings">
-          <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
-        </div>
-      </section>
+      </header>
+      <div class="main__list">
+        <section class="movies-container">
+          <h3 class="movies-container__catch-phrase">A los golpes</h3>
+          <h2 class="movies-container__title">Acción</h2>
+          <div id='action_container' class="movies-container__listings">
+            <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
+            
+          </div>
+        </section>
+        <section class="movies-container">
+          <h3 class="movies-container__catch-phrase">Para llorar</h3>
+          <h2 class="movies-container__title">Drama</h2>
+          <div id="drama_container" class="movies-container__listings">
+            <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
+          </div>
+        </section>
+        <section class="movies-container">
+          <h3 class="movies-container__catch-phrase">Para toda la familia</h3>
+          <h2 class="movies-container__title">Animación</h2>
+          <div id="animation_container" class="movies-container__listings">
+            <img class="listings__loading-gif" src="https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif" alt="">
+          </div>
+        </section>
+        
+      </div>
+      <div class="home-featuring" id="featuring">
+
+      </div>
     </main>
+    <div class="overlay" id="overlay">
+    </div>
+    <div class="modal" id="modal">
+      <h1>Título de pelicula</h1>
+      <div class="modal-content">
+        <img src="" alt="" width="170" height="256">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione impedit maiores enim alias ex accusantium quasi cum autem, nam, voluptas tenetur laudantium quod! Odit voluptate illo, voluptas vel quia, quae.</p>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn primary" id="hide-modal">Cerrar Modal</button>
+      </div>
+    </div>
   </div>
   <script src="scripts/main.js"></script>
 </body>

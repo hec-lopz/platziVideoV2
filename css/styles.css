@@ -66,9 +66,12 @@ body {
   display: grid;
   height: 100vh;
   grid-template-columns: 300px 1fr;
-  grid-template-rows: 75px 2fr;
-  grid-template-areas: "sidebar header"
-                        "sidebar main";
+  grid-template-rows: 1fr 0;
+  grid-template-areas: "sidebar main"
+                        "sidebar featuring";
+}
+.home.search-active {
+  grid-template-rows: 1fr 150px;
 }
 
 .smart-header {
@@ -138,6 +141,8 @@ object-fit: cover;
 }
 /* Termina SideBar */
 
+
+
 /******************************** Empieza Main-Header */
 .main-header {
   grid-area: header;
@@ -147,7 +152,7 @@ object-fit: cover;
   /* padding-top: 20px; */
   box-sizing: border-box;
   color: var(--black-color);
-  background-color: var(--background-gray-color);
+  /* background-color: var(--background-gray-color); */
 }
 #header__search-bar{
   width: 300px;
@@ -157,8 +162,11 @@ object-fit: cover;
   background-color: var(--gray-color);
   font-size: 16px;
   padding-left: 20px;
+  grid-area: search;
 }
+
 .username {
+  grid-area: user;
   display: flex;
   color: var(--black-color);
   align-items: center;
@@ -181,6 +189,15 @@ object-fit: cover;
   padding: 10px;
   box-sizing: border-box;
   overflow: auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:  'header header'
+                        'list list';
+}
+.main__list {
+  grid-area: list;
+  overflow: auto;
 }
 .movies-container {
   font-size: 12px;
@@ -197,15 +214,14 @@ object-fit: cover;
 }
 .movies-container__listings{
   display: flex;
-  align-items: center;
   overflow: auto;
-  /* width: 75vw; */
 }
 .listings__loading-gif{
   width: 75px;
 }
 .listings__movie-item {
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .movie-item__cover {
@@ -216,5 +232,5 @@ object-fit: cover;
   width: 100%;
 }
 .movie-item__title {
-  font-size: 1.3em;
+  font-size: 1em;
 }
