@@ -70,8 +70,20 @@ body {
   grid-template-areas: "sidebar main"
                         "sidebar featuring";
 }
+.home-featuring{
+  grid-area: featuring;
+}
 .grid-layout.search-active {
   grid-template-rows: 1fr 150px;
+}
+
+.home-featuring {
+  grid-area: featuring;
+  display: grid;
+}
+.home-featuring img {
+  align-self: center;
+  justify-self: center;
 }
 
 .smart-header {
@@ -236,14 +248,13 @@ object-fit: cover;
 }
 
 
-#featuring {
+.featuring {
   background: linear-gradient(to right, #ff0000, #ff458b);
   display: flex;
   height: 100%;
   align-items: center;
   padding-left: 100px;
   color: white;
-  grid-area: featuring;
 }
 
 .featuring-image {

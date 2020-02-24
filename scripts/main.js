@@ -1,41 +1,59 @@
-const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
 const $modal = document.getElementById('modal');
 const $overlay = document.getElementById('overlay');
 const $hide_modal = document.getElementById('hide-modal');
-$hide_modal.addEventListener('click', hideModal);
+const $action_container = document.getElementById('action_container')
+const $drama_container = document.getElementById('drama_container')
+const $animation_container = document.getElementById('animation_container');
+const $form = document.getElementById('form')
+const $grid_layout = document.querySelector('.grid-layout')
+const $featuring_container = document.getElementById('featuring');
+
+const API_URL = 'https://yts.mx/api/v2/list_movies.json?:get';
+const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif';
 
 
 (async function load(){
-  const $action_container = document.getElementById('action_container')
-  const $drama_container = document.getElementById('drama_container')
-  const $animation_container = document.getElementById('animation_container')
-  const $form = document.getElementById('form')
-  const $grid_layout = document.querySelector('.grid-layout')
   
-
-  $form.addEventListener('submit', (event) => {
+  
+  $form.addEventListener('submit', async (event) => {
     event.preventDefault()
     $grid_layout.classList.add('search-active')
-  })
+    $loader = document.createElement('img')
+    setAttributes($loader, {
+      src: loader_gif,
+      height: 50,
+      widtt: 50,
+    })
+    $featuring_container.append($loader)
 
-  async function getMovieData(genre) {
-    const GENRE_URL = API_URL.replace(':name', genre)
+    const data = new FormData($form)
+    const movie = await getMovieData(`limit=1&query_term=${data.get('name')}`)
+    const HTMLString = featuringTemplate(movie.data.movies[0])
+    $featuring_container.innerHTML = HTMLString
+  })
+  
+  async function getMovieData(request) {
+    const GENRE_URL = API_URL.replace(':get', request)
     const response = await fetch(GENRE_URL)
     const movie_data = await response.json()
     return movie_data
   }
-  action_list = await getMovieData('action')
-  drama_list = await getMovieData('drama')
-  animation_list = await getMovieData('animation')
-    
+  action_list = await getMovieData('genre=action')
+  drama_list = await getMovieData('genre=drama')
+  animation_list = await getMovieData('genre=animation')
   
-
   fillMovieContainer($action_container, action_list)
   fillMovieContainer($drama_container, drama_list)
   fillMovieContainer($animation_container, animation_list)
-
+  $hide_modal.addEventListener('click', hideModal);
+  
 })()
 
+function setAttributes($element, attributes) {
+  for (const attribute in attributes) {
+    $element.setAttribute(attribute, attributes[attribute])
+  }
+}
 
 function hideModal() {
   $overlay.classList.remove('active')
@@ -44,13 +62,13 @@ function hideModal() {
 function showModal() {
   $overlay.classList.add('active')
   $modal.style.animation = 'modalIn .8s forwards'
-
+  
 }
 
 function addClickEvent($element) {
   $element.addEventListener('click', () => {
     showModal()
-
+    
   })
 }
 
@@ -77,4 +95,19 @@ function generateHTMLTemplate(movie) {
             </figure>
             <h4 class="movie-item__title">${movie.title}</h4>
           </div>`
+        }
+function featuringTemplate(movie) {
+  return (
+  `
+  <div class="featuring">
+        <figure class="featuring-image">
+          <img src="${movie.medium_cover_image}" alt="${movie.title}" width="70" height="100" >
+        </figure>
+        <div class="featuring-content">
+          <p class="featuring-title">Película encontrada</p>
+          <p class="featuring-album">${movie.title}</p>
+        </div>
+      </div>
+  `
+  )
 }
