@@ -27,8 +27,12 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     $featuring_container.append($loader)
 
     const data = new FormData($form)
-    const movie = await getMovieData(`limit=1&query_term=${data.get('name')}`)
-    const HTMLString = featuringTemplate(movie.data.movies[0])
+    const {
+      data: {
+        movies: movie
+      }
+    } = await getMovieData(`limit=1&query_term=${data.get('name')}`)
+    const HTMLString = featuringTemplate(movie[0])
     $featuring_container.innerHTML = HTMLString
   })
   
