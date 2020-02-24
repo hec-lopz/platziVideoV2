@@ -1,13 +1,21 @@
 const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
-
-
+const $modal = document.getElementById('modal');
+const $overlay = document.getElementById('overlay');
+const $hide_modal = document.getElementById('hide-modal');
+$hide_modal.addEventListener('click', hideModal);
 
 
 (async function load(){
-
+  const $action_container = document.getElementById('action_container')
+  const $drama_container = document.getElementById('drama_container')
+  const $animation_container = document.getElementById('animation_container')
   const $form = document.getElementById('form')
+  const $grid_layout = document.querySelector('.grid-layout')
+  
+
   $form.addEventListener('submit', (event) => {
     event.preventDefault()
+    $grid_layout.classList.add('search-active')
   })
 
   async function getMovieData(genre) {
@@ -20,9 +28,7 @@ const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
   drama_list = await getMovieData('drama')
   animation_list = await getMovieData('animation')
     
-  const $action_container = document.getElementById('action_container')
-  const $drama_container = document.getElementById('drama_container')
-  const $animation_container = document.getElementById('animation_container')
+  
 
   fillMovieContainer($action_container, action_list)
   fillMovieContainer($drama_container, drama_list)
@@ -31,11 +37,20 @@ const API_URL = 'https://yts.mx/api/v2/list_movies.json?genre=:name';
 })()
 
 
+function hideModal() {
+  $overlay.classList.remove('active')
+  $modal.style.animation = 'modalOut .8s forwards'
+}
+function showModal() {
+  $overlay.classList.add('active')
+  $modal.style.animation = 'modalIn .8s forwards'
 
+}
 
 function addClickEvent($element) {
   $element.addEventListener('click', () => {
-    alert('Click')
+    showModal()
+
   })
 }
 
