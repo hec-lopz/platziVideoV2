@@ -1,4 +1,8 @@
 const $modal = document.getElementById('modal');
+const $modal_title = $modal.querySelector('h1')
+const $modal_cover = $modal.querySelector('img')
+const $modal_description = $modal.querySelector('p')
+
 const $overlay = document.getElementById('overlay');
 const $hide_modal = document.getElementById('hide-modal');
 const $action_container = document.getElementById('action_container')
@@ -21,7 +25,7 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     setAttributes($loader, {
       src: loader_gif,
       height: 50,
-      widtt: 50,
+      width: 50, 
     })
     $featuring_container.append($loader)
 
@@ -41,78 +45,101 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     const movie_data = await response.json()
     return movie_data
   }
-  action_list = await getMovieData('genre=action')
-  drama_list = await getMovieData('genre=drama')
-  animation_list = await getMovieData('genre=animation')
-  
+  const { data: 
+          {movies: action_list} } = await getMovieData('genre=action')
+  const {data: 
+          {movies: drama_list}} = await getMovieData('genre=drama')
+  const {data: 
+          {movies: animation_list}} = await getMovieData('genre=animation')
+          
   fillMovieContainer($action_container, action_list, 'action')
   fillMovieContainer($drama_container, drama_list, 'drama')
   fillMovieContainer($animation_container, animation_list, 'animation')
   $hide_modal.addEventListener('click', hideModal);
   $overlay.addEventListener('click', hideModal);
   
-})()
-
-function setAttributes($element, attributes) {
-  for (const attribute in attributes) {
-    $element.setAttribute(attribute, attributes[attribute])
+  function lookForId(list, id) {
+    return list.find( item => item.id === parseInt(id))
   }
-}
+  function findMovie(id, genre) {
+    switch (genre) {
+      case 'action' :
+        return lookForId(action_list, id) 
+        break
+      case 'drama' :
+        return lookForId(drama_list, id)
+        break
+      default:
+        return lookForId(animation_list, id)
+    }
+  }
+  function setAttributes($element, attributes) {
+    for (const attribute in attributes) {
+      $element.setAttribute(attribute, attributes[attribute])
+    }
+  }
+  
+  function hideModal() {
+    setTimeout(() => $overlay.classList.remove('active'), 700)
+    $modal.style.animation = 'modalOut .8s forwards'
+  }
+  function showModal($element) {
+    $overlay.classList.add('active')
+    $modal.style.animation = 'modalIn .8s forwards'
+    const movie_id = $element.dataset.id
+    const movie_genre = $element.dataset.genre
+    const found_movie = findMovie(movie_id, movie_genre)
 
-function hideModal() {
-  setTimeout(() => $overlay.classList.remove('active'), 700)
-  $modal.style.animation = 'modalOut .8s forwards'
-}
-function showModal($element) {
-  $overlay.classList.add('active')
-  $modal.style.animation = 'modalIn .8s forwards'
-  const movie_id = $element.dataset.id
-  const movie_genre = $element.dataset.genre
-}
+    $modal_title.textContent = found_movie.title
+    $modal_cover.setAttribute('src', found_movie.medium_cover_image)
+    $modal_description.textContent = found_movie.description_full
 
-function addClickEvent($element) {
-  $element.addEventListener('click', () => {
-    showModal($element)
-    
-  })
-}
-
-function fillMovieContainer(container, list, genre) {
-  container.children[0].remove()
-  list.data.movies.forEach(movie => {
-    const HTMLString = generateHTMLTemplate(movie, genre)
-    const movieItem = getMovieItemHTML(HTMLString)
-    container.append(movieItem)
-    addClickEvent(movieItem)
-  });
-}
-
-function getMovieItemHTML(HTMLString) {
-  const html = document.implementation.createHTMLDocument()
-  html.body.innerHTML = HTMLString
-  return html.body.children[0]
-}
-
-function generateHTMLTemplate(movie, genre) {
-  return `<div class="listings__movie-item" data-id="${movie.id}" data-genre="${genre}">
-            <figure class="movie-item__cover">
-              <img src="${movie.medium_cover_image}" alt="" class="cover-image">
-            </figure>
-            <h4 class="movie-item__title">${movie.title}</h4>
-          </div>`
-        }
-function featuringTemplate(movie) {
-  return (
-  `
-  <div class="featuring">
-        <figure class="featuring-image">
-          <img src="${movie.medium_cover_image}" alt="${movie.title}" width="70" height="100" >
-        </figure>
-        <div class="featuring-content">
-          <p class="featuring-title">Película encontrada</p>
-          <p class="featuring-album">${movie.title}</p>
+  }
+  
+  function addClickEvent($element) {
+    $element.addEventListener('click', () => {
+      showModal($element)
+      
+    })
+  }
+  
+  function fillMovieContainer(container, list, genre) {
+    container.children[0].remove()
+    list.forEach(movie => {
+      const HTMLString = generateHTMLTemplate(movie, genre)
+      const movieItem = getMovieItemHTML(HTMLString)
+      container.append(movieItem)
+      addClickEvent(movieItem)
+    });
+  }
+  
+  function getMovieItemHTML(HTMLString) {
+    const html = document.implementation.createHTMLDocument()
+    html.body.innerHTML = HTMLString
+    return html.body.children[0]
+  }
+  
+  function generateHTMLTemplate(movie, genre) {
+    return `<div class="listings__movie-item" data-id="${movie.id}" data-genre="${genre}">
+              <figure class="movie-item__cover">
+                <img src="${movie.medium_cover_image}" alt="" class="cover-image">
+              </figure>
+              <h4 class="movie-item__title">${movie.title}</h4>
+            </div>`
+          }
+  function featuringTemplate(movie) {
+    return (
+    `
+    <div class="featuring">
+          <figure class="featuring-image">
+            <img src="${movie.medium_cover_image}" alt="${movie.title}" width="70" height="100" >
+          </figure>
+          <div class="featuring-content">
+            <p class="featuring-title">Película encontrada</p>
+            <p class="featuring-album">${movie.title}</p>
+          </div>
         </div>
-      </div>
-  `
-  )
-}
+    `
+    )
+  }
+})()
