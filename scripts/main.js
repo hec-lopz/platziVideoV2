@@ -68,7 +68,6 @@ function showModal($element) {
   $modal.style.animation = 'modalIn .8s forwards'
   const movie_id = $element.dataset.id
   const movie_genre = $element.dataset.genre
-  debugger
 }
 
 function addClickEvent($element) {
