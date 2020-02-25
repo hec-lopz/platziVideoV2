@@ -14,7 +14,6 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
 
 (async function load(){
   
-  
   $form.addEventListener('submit', async (event) => {
     event.preventDefault()
     $grid_layout.classList.add('search-active')
@@ -46,10 +45,11 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
   drama_list = await getMovieData('genre=drama')
   animation_list = await getMovieData('genre=animation')
   
-  fillMovieContainer($action_container, action_list)
-  fillMovieContainer($drama_container, drama_list)
-  fillMovieContainer($animation_container, animation_list)
+  fillMovieContainer($action_container, action_list, 'action')
+  fillMovieContainer($drama_container, drama_list, 'drama')
+  fillMovieContainer($animation_container, animation_list, 'animation')
   $hide_modal.addEventListener('click', hideModal);
+  $overlay.addEventListener('click', hideModal);
   
 })()
 
@@ -60,26 +60,28 @@ function setAttributes($element, attributes) {
 }
 
 function hideModal() {
-  $overlay.classList.remove('active')
+  setTimeout(() => $overlay.classList.remove('active'), 700)
   $modal.style.animation = 'modalOut .8s forwards'
 }
-function showModal() {
+function showModal($element) {
   $overlay.classList.add('active')
   $modal.style.animation = 'modalIn .8s forwards'
-  
+  const movie_id = $element.dataset.id
+  const movie_genre = $element.dataset.genre
+  debugger
 }
 
 function addClickEvent($element) {
   $element.addEventListener('click', () => {
-    showModal()
+    showModal($element)
     
   })
 }
 
-function fillMovieContainer(container, list) {
+function fillMovieContainer(container, list, genre) {
   container.children[0].remove()
   list.data.movies.forEach(movie => {
-    const HTMLString = generateHTMLTemplate(movie)
+    const HTMLString = generateHTMLTemplate(movie, genre)
     const movieItem = getMovieItemHTML(HTMLString)
     container.append(movieItem)
     addClickEvent(movieItem)
@@ -92,8 +94,8 @@ function getMovieItemHTML(HTMLString) {
   return html.body.children[0]
 }
 
-function generateHTMLTemplate(movie) {
-  return `<div class="listings__movie-item">
+function generateHTMLTemplate(movie, genre) {
+  return `<div class="listings__movie-item" data-id="${movie.id}" data-genre="${genre}">
             <figure class="movie-item__cover">
               <img src="${movie.medium_cover_image}" alt="" class="cover-image">
             </figure>
