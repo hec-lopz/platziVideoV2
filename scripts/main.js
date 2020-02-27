@@ -30,20 +30,32 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     $featuring_container.append($loader)
 
     const data = new FormData($form)
-    const {
-      data: {
-        movies: movie
-      }
-    } = await getMovieData(`limit=1&query_term=${data.get('name')}`)
-    const HTMLString = featuringTemplate(movie[0])
-    $featuring_container.innerHTML = HTMLString
+    try {
+      const {
+        data: {
+          movies: movie
+        }
+      } = await getMovieData(`limit=1&query_term=${data.get('name')}`)
+      const HTMLString = featuringTemplate(movie[0])
+      $featuring_container.innerHTML = HTMLString
+    } catch(error) {
+      alert(error)
+      console.log(error)
+      debugger
+      $grid_layout.classList.remove('search-active')
+      $featuring_container.innerHTML = ''
+    }
   })
   
   async function getMovieData(request) {
     const GENRE_URL = API_URL.replace(':get', request)
     const response = await fetch(GENRE_URL)
     const movie_data = await response.json()
-    return movie_data
+    if (movie_data.data.movie_count) {
+      return movie_data
+    } else {
+      throw new Error('No encontramos la película')
+    }
   }
   const { data: {movies: action_list} } = await getMovieData('genre=action')
     fillMovieContainer($action_container, action_list, 'action')
@@ -61,13 +73,13 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
   function findMovie(id, genre) {
     switch (genre) {
       case 'action' :
-        return lookForId(action_list, id) 
-        break
+          return lookForId(action_list, id) 
+        break;
       case 'drama' :
-        return lookForId(drama_list, id)
-        break
+          return lookForId(drama_list, id)
+        break;
       default:
-        return lookForId(animation_list, id)
+          return lookForId(animation_list, id)
     }
   }
   function setAttributes($element, attributes) {
@@ -132,14 +144,14 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     return (
     `
     <div class="featuring">
-          <figure class="featuring-image">
-            <img src="${movie.medium_cover_image}" alt="${movie.title}" width="70" height="100" >
-          </figure>
-          <div class="featuring-content">
-            <p class="featuring-title">Película encontrada</p>
-            <p class="featuring-album">${movie.title}</p>
-          </div>
-        </div>
+      <figure class="featuring-image">
+        <img src="${movie.medium_cover_image}" alt="${movie.title}" width="70" height="100" >
+      </figure>
+      <div class="featuring-content">
+        <p class="featuring-title">Película encontrada</p>
+        <p class="featuring-album">${movie.title}</p>
+      </div>
+    </div>
     `
     )
   }
