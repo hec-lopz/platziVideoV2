@@ -45,16 +45,13 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     const movie_data = await response.json()
     return movie_data
   }
-  const { data: 
-          {movies: action_list} } = await getMovieData('genre=action')
-  const {data: 
-          {movies: drama_list}} = await getMovieData('genre=drama')
-  const {data: 
-          {movies: animation_list}} = await getMovieData('genre=animation')
+  const { data: {movies: action_list} } = await getMovieData('genre=action')
+    fillMovieContainer($action_container, action_list, 'action')
+  const {data: {movies: drama_list}} = await getMovieData('genre=drama')
+    fillMovieContainer($drama_container, drama_list, 'drama')
+  const {data: {movies: animation_list}} = await getMovieData('genre=animation')
+    fillMovieContainer($animation_container, animation_list, 'animation')
           
-  fillMovieContainer($action_container, action_list, 'action')
-  fillMovieContainer($drama_container, drama_list, 'drama')
-  fillMovieContainer($animation_container, animation_list, 'animation')
   $hide_modal.addEventListener('click', hideModal);
   $overlay.addEventListener('click', hideModal);
   
@@ -109,6 +106,10 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
       const HTMLString = generateHTMLTemplate(movie, genre)
       const movieItem = getMovieItemHTML(HTMLString)
       container.append(movieItem)
+      movieItem.querySelector('img').addEventListener('load', (event) => {
+        event.target.classList.add('fadeIn')
+
+      })
       addClickEvent(movieItem)
     });
   }

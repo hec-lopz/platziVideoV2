@@ -268,3 +268,17 @@ object-fit: cover;
   font-size: 1.3em;
   margin: 10px;
 }
+
+.fadeIn {
+  animation: 5000ms fadeIn;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
