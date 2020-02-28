@@ -12,6 +12,8 @@ const $form = document.getElementById('form')
 const $grid_layout = document.querySelector('.grid-layout')
 const $featuring_container = document.getElementById('featuring');
 
+const $friend_list = document.getElementById('friend-list')
+
 const API_URL = 'https://yts.mx/api/v2/list_movies.json?:get';
 const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif';
 
@@ -27,6 +29,7 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
       height: 50,
       width: 50, 
     })
+    $featuring_container.innerHTML = ""
     $featuring_container.append($loader)
 
     const data = new FormData($form)
@@ -39,11 +42,9 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
       const HTMLString = featuringTemplate(movie[0])
       $featuring_container.innerHTML = HTMLString
     } catch(error) {
-      alert(error)
-      console.log(error)
-      debugger
+      errorMessage(error.message)
       $grid_layout.classList.remove('search-active')
-      $featuring_container.innerHTML = ''
+      $loader.remove()
     }
   })
   
@@ -54,15 +55,36 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     if (movie_data.data.movie_count) {
       return movie_data
     } else {
-      throw new Error('No encontramos la película')
+      throw new Error('No encontramos tu película. :c')
     }
   }
-  const { data: {movies: action_list} } = await getMovieData('genre=action')
+
+ 
+
+  async function cachePresence(genre) {
+    const cached = `${genre}_list`
+    const list = localStorage.getItem(cached)
+    if (list) {
+      return JSON.parse(list)
+    }
+    const { data: {movies: data} } = await getMovieData(`genre=${genre}`)
+    localStorage.setItem(`${genre}_list`, JSON.stringify(data))
+    return data
+
+  }
+  try {
+    var action_list = await cachePresence('action')
     fillMovieContainer($action_container, action_list, 'action')
-  const {data: {movies: drama_list}} = await getMovieData('genre=drama')
+  
+    var drama_list = await cachePresence('drama')
     fillMovieContainer($drama_container, drama_list, 'drama')
-  const {data: {movies: animation_list}} = await getMovieData('genre=animation')
+  
+    var animation_list = await cachePresence('animation')
     fillMovieContainer($animation_container, animation_list, 'animation')
+  } catch(error) {
+    errorMessage('No pudimos conseguir la información. :c')
+    console.log(error)
+  }
           
   $hide_modal.addEventListener('click', hideModal);
   $overlay.addEventListener('click', hideModal);
@@ -155,4 +177,44 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
     `
     )
   }
+
+
+  async function getUserData(number) {
+    const USERS_API = `https://randomuser.me/api/?results=${number}`
+    const response = await fetch(USERS_API)
+    const data = await response.json()
+    return data
+  }
+  const {results: user_list} = await getUserData(10)
+  fillUserList(user_list)
+
+  function fillUserList(list) {
+    list.forEach(user => {
+      const {name} = user
+      const {picture} = user
+      const HTMLString = generateUserTemplate(name, picture.thumbnail)
+      $friend_list.innerHTML += HTMLString
+      debugger
+
+    })
+  }
+
 })()
+
+function errorMessage(error) {
+  Swal.fire({
+    title: 'Oh, rayos!',
+    text: error,
+    icon: 'error',
+    confirmButtonText: 'Cool',
+  })
+}
+function generateUserTemplate(name, photo) {
+return  (`<li class="friend-item list-item">
+    <figure class="profile-container">
+        <img src="${photo}" alt="">
+    </figure>
+    <span>${name.first} ${name.last}</span>
+</li>`)
+
+}

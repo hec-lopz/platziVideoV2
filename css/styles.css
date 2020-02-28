@@ -49,7 +49,7 @@
   --thumb-pic: url('https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png');
 }
 
-body, html, h1, h2, h3, h4, p, figure {
+body, html, h1, h2, h3, h4, p, figure, ul, ol{
   margin: 0;
   padding: 0;
   overflow: none;
@@ -98,7 +98,7 @@ body {
   height: 100vh;
   background-color: #000033;
   color: white;
-  padding-left: 20px;
+  /* padding-right: 10px; */
   padding-top: 10px;
   display: flex;
   flex-flow: column;
@@ -116,7 +116,8 @@ body {
 .logo {
 	font-size: 34px;
 	font-family: 'Mitr', sans-serif;
-	margin-bottom: 30px;
+  margin-bottom: 30px;
+  margin-left: 20px;
 }
 .logo span {
 	color: var(--red-color);
@@ -124,14 +125,19 @@ body {
 .list-item {
   margin-bottom: 10px;
   cursor: pointer;
+  padding-left: 20px;
 }
 .list-item:hover {
   background-color: #4949ad;
 }
+.friends-playlist h2 {
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
 .friend-list {
 	list-style: none;
-  padding-left: 20px;
-  /* height: 400px; */
+  /* padding-left: 20px; */
+  height: 400px;
   overflow: auto;
 }
 .profile-container {
