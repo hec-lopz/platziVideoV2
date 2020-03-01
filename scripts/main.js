@@ -148,11 +148,7 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
     });
   }
   
-  function getMovieItemHTML(HTMLString) {
-    const html = document.implementation.createHTMLDocument()
-    html.body.innerHTML = HTMLString
-    return html.body.children[0]
-  }
+
   
   function generateHTMLTemplate(movie, genre) {
     return `<div class="listings__movie-item" data-id="${movie.id}" data-genre="${genre}">
@@ -215,14 +211,15 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
   function fillTopList(list) {
     list.forEach(movie => {
       const HTMLString = generateTopTemplate(movie)
-      top_container.innerHTML += HTMLString
+      const movieItem = getMovieItemHTML(HTMLString)
+      top_container.append(movieItem)
     })
   }
 
   function generateTopTemplate(movie) {
     return (`
-    <li class="song-name list-item">
-      <a href="#">
+    <li data-id='${movie.id}' data-genre='${movie.genre}'class="song-name list-item">
+      <a href="${movie.url}" target='_blank'>
         ${movie.title}
       </a>
     </li>`)
@@ -231,6 +228,11 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
 
 })()
 
+function getMovieItemHTML(HTMLString) {
+  const html = document.implementation.createHTMLDocument()
+  html.body.innerHTML = HTMLString
+  return html.body.children[0]
+}
 function errorMessage(error) {
   Swal.fire({
     title: 'Oh, rayos!',
