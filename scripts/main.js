@@ -16,7 +16,7 @@ const $friend_list = document.getElementById('friend-list')
 
 const API_URL = 'https://yts.mx/api/v2/list_movies.json?:get';
 const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-js-curso/master/src/images/loader.gif';
-
+const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
 
 (async function load(){
   
@@ -198,6 +198,36 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
 
     })
   }
+
+})();
+
+(async function getTopMovies() {
+  const top_container = document.getElementById('top_container')
+  async function getMovieList() {
+    const top_list = await fetch(TOP_MOVIES)
+    const data = await top_list.json()
+    return data
+  }
+  const { data: { movies: top_movies_list } } = await getMovieList()
+  fillTopList(top_movies_list)
+  
+  
+  function fillTopList(list) {
+    list.forEach(movie => {
+      const HTMLString = generateTopTemplate(movie)
+      top_container.innerHTML += HTMLString
+    })
+  }
+
+  function generateTopTemplate(movie) {
+    return (`
+    <li class="song-name list-item">
+      <a href="#">
+        ${movie.title}
+      </a>
+    </li>`)
+  }
+
 
 })()
 
