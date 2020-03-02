@@ -14,14 +14,14 @@
 <body>
   <div class="grid-layout">
     <header class="smart-header">
-      <i class="icon-menu"></i>
+      <i class="icon-menu burger-button"></i>
         <figure class="logo ">
           Platzi<span>Video</span>
         </figure>
     </header>
-    <nav class="menu is-active">
+    <!-- <nav class="menu is-active">
       <div class="my-playlist">
-        <h2 class="list-title">Mi Playlist</h2>
+        <h2 class="list-title">Historic Top Movies</h2>
         <ol class="song-list">
           <li class="song-name list-item">
             <a href="#">
@@ -71,62 +71,24 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </nav> -->
     <!-- Empieza Sidebar -->
-    <section class="side-bar">
+    <section data-active='false' class="side-bar">
       <div class="logo-container">
         <figure class="logo">
-            Platzi<span>Video</span>
+          <i id='burguer_button' class="icon-menu burger-button"></i> Platzi<span>Video</span>
         </figure>
       </div>
       <div class="my-playlist">
-        <h2 class="list-title">Mi Playlist</h2>
-        <ol class="song-list">
-          <li class="song-name list-item">
-            <a href="#">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-            </a>
-          </li>
-          <li class="song-name list-item">
-            <a href="#">
-              Playlist #2</li>
-            </a>
-          <li class="song-name list-item">Playlist #3</li>
-          <li class="song-name list-item">Playlist #4</li>
-          <li class="song-name list-item">Playlist #5</li>
-          <li class="song-name list-item">Playlist #6</li>
-          <li class="song-name list-item">Playlist #7</li>
-          <li class="song-name list-item">Playlist #8</li>
-          <li class="song-name list-item">Playlist #9</li>
-          <li class="song-name list-item">Playlist #10</li>
+        <h2 class="list-title">Top Movies</h2>
+        <ol class="song-list" id="top_container">
+          
         </ol>
       </div>
       <div class="friends-playlist">
         <h2>Playlists de Amigos</h2>
         <ul id="friend-list" class="friend-list">
-          <!-- <li class="friend-item list-item">
-              <figure class="profile-container">
-                  <img src="https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png" alt="">
-              </figure>
-              <span>Amigo #1</span>
-          </li>
-          <li class="friend-item list-item">
-              <figure class="profile-container">
-                  <img src="https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png" alt="">
-              </figure>
-              <span>Amigo #2</span>
-          </li>
-          <li class="friend-item list-item">
-              <figure class="profile-container">
-                  <img src="https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png" alt="">
-              </figure>
-              <span>Amigo #3</span>
-          </li>
-          <li class="friend-item list-item">
-              <figure class="profile-container">
-                  <img src="https://raw.githubusercontent.com/hec-lopz/platziVideo/master/images/thumb.png" alt="">
-              </figure>
-              <span>Amigo #4</span> -->
+          
           </li>
         </ul>
       </div>
@@ -188,6 +150,32 @@
       </div>
     </div>
   </div>
+  <script>
+    const $mobile_header = document.querySelector('.smart-header')
+    const $burguer_button = $mobile_header.querySelector('.icon-menu')
+    const $side_bar_burguer_button = document.querySelector('#burguer_button')
+    const $main_grid = document.querySelector('.grid-layout')
+    const $side_bar = document.querySelector('.side-bar')
+    $burguer_button.addEventListener('click', addEvent)
+
+    function addEvent() {
+      if ($side_bar.dataset.active == 'false') {
+            $main_grid.setAttribute('style', 'grid-template-columns: 1fr 2fr; grid-template-rows: 0 1fr;')
+            $mobile_header.style.display = 'none'
+            $side_bar.style.display = 'grid'
+            $side_bar.setAttribute('data-active', 'true')
+            $side_bar_burguer_button.style.display = 'inline'
+            $side_bar_burguer_button.addEventListener('click', addEvent)
+     } else {
+          $main_grid.removeAttribute('style')
+          $mobile_header.style.display = 'flex'
+          $side_bar.style.display = 'none'  
+          $side_bar.setAttribute('data-active', 'false')
+      }
+    }
+      
+  
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- <script src="sweetalert2.all.min.js"></script> -->
   <script src="scripts/main.js"></script>
