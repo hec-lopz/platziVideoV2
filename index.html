@@ -14,12 +14,12 @@
 <body>
   <div class="grid-layout">
     <header class="smart-header">
-      <i class="icon-menu"></i>
+      <i class="icon-menu burger-button"></i>
         <figure class="logo ">
           Platzi<span>Video</span>
         </figure>
     </header>
-    <nav class="menu is-active">
+    <!-- <nav class="menu is-active">
       <div class="my-playlist">
         <h2 class="list-title">Historic Top Movies</h2>
         <ol class="song-list">
@@ -71,16 +71,16 @@
           </li>
         </ul>
       </div>
-    </nav>
+    </nav> -->
     <!-- Empieza Sidebar -->
-    <section class="side-bar">
+    <section data-active='false' class="side-bar">
       <div class="logo-container">
         <figure class="logo">
-            Platzi<span>Video</span>
+          <i id='burguer_button' class="icon-menu burger-button"></i> Platzi<span>Video</span>
         </figure>
       </div>
       <div class="my-playlist">
-        <h2 class="list-title">Top Movies Histórico</h2>
+        <h2 class="list-title">Top Movies</h2>
         <ol class="song-list" id="top_container">
           
         </ol>
@@ -150,6 +150,32 @@
       </div>
     </div>
   </div>
+  <script>
+    const $mobile_header = document.querySelector('.smart-header')
+    const $burguer_button = $mobile_header.querySelector('.icon-menu')
+    const $side_bar_burguer_button = document.querySelector('#burguer_button')
+    const $main_grid = document.querySelector('.grid-layout')
+    const $side_bar = document.querySelector('.side-bar')
+    $burguer_button.addEventListener('click', addEvent)
+
+    function addEvent() {
+      if ($side_bar.dataset.active == 'false') {
+            $main_grid.setAttribute('style', 'grid-template-columns: 1fr 2fr; grid-template-rows: 0 1fr;')
+            $mobile_header.style.display = 'none'
+            $side_bar.style.display = 'grid'
+            $side_bar.setAttribute('data-active', 'true')
+            $side_bar_burguer_button.style.display = 'inline'
+            $side_bar_burguer_button.addEventListener('click', addEvent)
+     } else {
+          $main_grid.removeAttribute('style')
+          $mobile_header.style.display = 'flex'
+          $side_bar.style.display = 'none'  
+          $side_bar.setAttribute('data-active', 'false')
+      }
+    }
+      
+  
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <!-- <script src="sweetalert2.all.min.js"></script> -->
   <script src="scripts/main.js"></script>

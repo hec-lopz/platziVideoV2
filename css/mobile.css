@@ -24,15 +24,14 @@
 @media screen and (max-width: 768px) {
   .grid-layout {
     display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    grid-template-rows: 50px 2fr minmax(auto-fill, 1.5fr) 2fr;
-    grid-template-areas:   	"header header"
-                    "player player"
-                   "description description"
-                   "comments suggestions" ;
+    grid-template-columns: 0 1fr;
+    grid-template-rows: 50px 1fr;
+    grid-template-areas:   	"sidebar header"
+                            "sidebar main" ;
   }
   .side-bar {
     display: none;
+    overflow: auto;
   }
   .video-container {
     padding-bottom: 56.25%;
@@ -96,6 +95,10 @@
   .smart-header {
     height: 40px;
   }
+  .main-header {
+    display: block;
+    margin: 0 auto;
+  }
   .content-box input {
     width: 50%;
     padding-left: 15%;
@@ -111,7 +114,7 @@
   }
 }
 
-@media screen and (max-width: 360px) {
+/* @media screen and (max-width: 360px) {
   .grid-layout {
     display: grid;
     grid-template-columns: 1.2fr .8fr;
@@ -177,4 +180,4 @@
   .profile-container {
     padding: 0;
   }
-}}
+}} */

@@ -190,8 +190,6 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
       const {picture} = user
       const HTMLString = generateUserTemplate(name, picture.thumbnail)
       $friend_list.innerHTML += HTMLString
-      debugger
-
     })
   }
 
