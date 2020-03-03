@@ -66,17 +66,31 @@
 
 .modal-content {
   display: flex;
+  align-items: center;
 }
+.modal h1 {
+  margin: 5px 0;
+}
+
 
 .modal-content img {
   width: 170px;
   height: 256px;
   object-fit: cover;
   margin-right: 15px;
+  border: 1px solid var(--black-color);
+  border-radius: 5px;
+  padding: 3px ;
 }
 .modal-content p {
   align-self: center;
+  text-align: justify;
 }
+.modal.my-info a {
+  text-decoration: underline;
+  color: var(--hover-bbg);
+}
+
 /*@keyframes animationIn {*/
 @keyframes modalIn {
   0% {
