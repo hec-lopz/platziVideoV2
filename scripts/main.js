@@ -19,7 +19,6 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
 const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
 
 (async function load(){
-  
   $form.addEventListener('submit', async (event) => {
     event.preventDefault()
     $grid_layout.classList.add('search-active')
@@ -58,8 +57,6 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
       throw new Error('No encontramos tu película. :c')
     }
   }
-
- 
 
   async function cachePresence(genre) {
     const cached = `${genre}_list`
@@ -127,27 +124,13 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
       $modal.style.alignItems = 'initial'
     }
     if ($element.dataset.username === 'my-info') {
-      $modal_title.textContent = $element.querySelector('h1').textContent
-      $modal_cover.setAttribute('src', $element.querySelector('img').getAttribute('src'))
-      $modal_description.innerHTML = ''
-      $modal_description.append($element.querySelector('p'))
+      showMyInfo($element);
 
     } else if ($element.dataset.username) {
-      console.log('es un user')
-      const username = $element.dataset.username
-      const found_user = findUser(username)
-      $modal_title.textContent = `${found_user.name.first} ${found_user.name.last}`
-      $modal_cover.setAttribute('src', found_user.picture.large)
-      $modal_description.textContent = ``
-      $modal.style.alignItems = 'center'
+      showUserInfo($element, findUser);
 
     } else {
-      const movie_id = $element.dataset.id
-      const movie_genre = $element.dataset.genre
-      const found_movie = findMovie(movie_id, movie_genre)
-      $modal_title.textContent = found_movie.title
-      $modal_cover.setAttribute('src', found_movie.medium_cover_image)
-      $modal_description.textContent = found_movie.description_full
+      showMovieItem($element, findMovie);
 
     }
   }
@@ -264,6 +247,31 @@ $my_info.addEventListener('click', () => {
 
 })();
 
+
+function showMovieItem($element, findMovie) {
+  const movie_id = $element.dataset.id;
+  const movie_genre = $element.dataset.genre;
+  const found_movie = findMovie(movie_id, movie_genre);
+  $modal_title.textContent = found_movie.title;
+  $modal_cover.setAttribute('src', found_movie.medium_cover_image);
+  $modal_description.textContent = found_movie.description_full;
+}
+
+function showUserInfo($element, findUser) {
+  const username = $element.dataset.username;
+  const found_user = findUser(username);
+  $modal_title.textContent = `${found_user.name.first} ${found_user.name.last}`;
+  $modal_cover.setAttribute('src', found_user.picture.large);
+  $modal_description.textContent = ``;
+  $modal.style.alignItems = 'center';
+}
+
+function showMyInfo($element) {
+  $modal_title.textContent = $element.querySelector('h1').textContent;
+  $modal_cover.setAttribute('src', $element.querySelector('img').getAttribute('src'));
+  $modal_description.innerHTML = '';
+  $modal_description.append($element.querySelector('p'));
+}
 
 function getMovieItemHTML(HTMLString) {
   const html = document.implementation.createHTMLDocument()

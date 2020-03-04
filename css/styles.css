@@ -211,6 +211,8 @@ object-fit: cover;
   border-radius: 50%;
   width: 50px;
   height: 50px;
+  padding: 25px;
+  box-sizing: border-box;
   background-image: var(--thumb-pic);
   background-position: center;
   background-size: cover;
