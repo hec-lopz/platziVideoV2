@@ -19,7 +19,6 @@ const loader_gif = 'https://raw.githubusercontent.com/LeonidasEsteban/jquery-to-
 const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
 
 (async function load(){
-  
   $form.addEventListener('submit', async (event) => {
     event.preventDefault()
     $grid_layout.classList.add('search-active')
@@ -58,8 +57,6 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
       throw new Error('No encontramos tu película. :c')
     }
   }
-
- 
 
   async function cachePresence(genre) {
     const cached = `${genre}_list`
@@ -100,6 +97,8 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
       case 'drama' :
           return lookForId(drama_list, id)
         break;
+      case 'top' :
+        return lookForId(top_movies_list, id)
       default:
           return lookForId(animation_list, id)
     }
@@ -110,21 +109,30 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
     }
   }
   
+
   function hideModal() {
     setTimeout(() => $overlay.classList.remove('active'), 700)
     $modal.style.animation = 'modalOut .8s forwards'
+    if ($modal.classList.contains('my-info')) {
+      $modal.classList.remove('my-info')
+    }
   }
   function showModal($element) {
     $overlay.classList.add('active')
     $modal.style.animation = 'modalIn .8s forwards'
-    const movie_id = $element.dataset.id
-    const movie_genre = $element.dataset.genre
-    const found_movie = findMovie(movie_id, movie_genre)
+    if($modal.style.alignItems === 'center') {
+      $modal.style.alignItems = 'initial'
+    }
+    if ($element.dataset.username === 'my-info') {
+      showMyInfo($element);
 
-    $modal_title.textContent = found_movie.title
-    $modal_cover.setAttribute('src', found_movie.medium_cover_image)
-    $modal_description.textContent = found_movie.description_full
+    } else if ($element.dataset.username) {
+      showUserInfo($element, findUser);
 
+    } else {
+      showMovieItem($element, findMovie);
+
+    }
   }
   
   function addClickEvent($element) {
@@ -185,46 +193,85 @@ const TOP_MOVIES = 'https://yts.mx/api/v2/list_movies.json?minimum_rating=9';
   fillUserList(user_list)
 
   function fillUserList(list) {
+    console.log(list)
     list.forEach(user => {
-      const {name} = user
-      const {picture} = user
-      const HTMLString = generateUserTemplate(name, picture.thumbnail)
-      $friend_list.innerHTML += HTMLString
+      const HTMLString = generateUserTemplate(user)
+      const HTMLObject = getMovieItemHTML(HTMLString)
+      $friend_list.append(HTMLObject)
+      addClickEvent(HTMLObject)
+      
     })
   }
+  let top_movies_list;
+  function findUser(username) {
+    return user_list.find( user => user.login.username === username)
+  }
+  (async function getTopMovies() {
+    const top_container = document.getElementById('top_container')
+    async function getMovieList() {
+      const top_list = await fetch(TOP_MOVIES)
+      const data = await top_list.json()
+      return data
+    }
+    const { data: { movies: top_movies } } = await getMovieList()
+    fillTopList(top_movies)
+    top_movies_list = top_movies
+    
+    
+    function fillTopList(list) {
+      list.forEach(movie => {
+        const HTMLString = generateTopTemplate(movie)
+        const movieItem = getMovieItemHTML(HTMLString)
+        top_container.append(movieItem)
+        addClickEvent(movieItem)
+      })
+    }
+  
+    function generateTopTemplate(movie) {
+      return (`
+      <li data-id='${movie.id}' data-genre='top'class="song-name list-item">
+        <a>
+          ${movie.title}
+        </a>
+      </li>`)
+    }
+  })()
+  
+const $my_info = document.querySelector('.username')
+$my_info.addEventListener('click', () => {
+  const HTMLString = generateAppDescriptionHTML()
+  const HTMLObject = getMovieItemHTML(HTMLString)
+  $modal.classList.add('my-info')
+  showModal(HTMLObject)
+})
 
 })();
 
-(async function getTopMovies() {
-  const top_container = document.getElementById('top_container')
-  async function getMovieList() {
-    const top_list = await fetch(TOP_MOVIES)
-    const data = await top_list.json()
-    return data
-  }
-  const { data: { movies: top_movies_list } } = await getMovieList()
-  fillTopList(top_movies_list)
-  
-  
-  function fillTopList(list) {
-    list.forEach(movie => {
-      const HTMLString = generateTopTemplate(movie)
-      const movieItem = getMovieItemHTML(HTMLString)
-      top_container.append(movieItem)
-    })
-  }
 
-  function generateTopTemplate(movie) {
-    return (`
-    <li data-id='${movie.id}' data-genre='${movie.genre}'class="song-name list-item">
-      <a href="${movie.url}" target='_blank'>
-        ${movie.title}
-      </a>
-    </li>`)
-  }
+function showMovieItem($element, findMovie) {
+  const movie_id = $element.dataset.id;
+  const movie_genre = $element.dataset.genre;
+  const found_movie = findMovie(movie_id, movie_genre);
+  $modal_title.textContent = found_movie.title;
+  $modal_cover.setAttribute('src', found_movie.medium_cover_image);
+  $modal_description.textContent = found_movie.description_full;
+}
 
+function showUserInfo($element, findUser) {
+  const username = $element.dataset.username;
+  const found_user = findUser(username);
+  $modal_title.textContent = `${found_user.name.first} ${found_user.name.last}`;
+  $modal_cover.setAttribute('src', found_user.picture.large);
+  $modal_description.textContent = ``;
+  $modal.style.alignItems = 'center';
+}
 
-})()
+function showMyInfo($element) {
+  $modal_title.textContent = $element.querySelector('h1').textContent;
+  $modal_cover.setAttribute('src', $element.querySelector('img').getAttribute('src'));
+  $modal_description.innerHTML = '';
+  $modal_description.append($element.querySelector('p'));
+}
 
 function getMovieItemHTML(HTMLString) {
   const html = document.implementation.createHTMLDocument()
@@ -239,12 +286,35 @@ function errorMessage(error) {
     confirmButtonText: 'Cool',
   })
 }
-function generateUserTemplate(name, photo) {
-return  (`<li class="friend-item list-item">
+function generateUserTemplate(user) {
+return  (`<li data-username='${user.login.username}' class="friend-item list-item">
     <figure class="profile-container">
-        <img src="${photo}" alt="">
+        <img src="${user.picture.thumbnail}" alt="">
     </figure>
-    <span>${name.first} ${name.last}</span>
+    <span>${user.name.first} ${user.name.last}</span>
 </li>`)
 
+}
+
+
+
+
+function generateAppDescriptionHTML() {
+  return `
+  <div data-username='my-info' >
+    <h1 >Gracias por tu Visita</h1>
+    <div class="modal-content">
+      <img src="https://avatars2.githubusercontent.com/u/58668448?s=460&v=4" alt="" width="170" height="256">
+      <p>
+        Mi nombre es Héctor López y soy Desarrollador Web.
+        <br/>
+        <br/> Esta aplicación está hecha con HTML, CSS y Javascript puros, es un ejercicio de práctica hecho en este <a href='https://platzi.com/clases/jquery-js/' >curso</a> de Platzi. Puedes encontrar el repositorio <a href='https://github.com/hec-lopz/platziVideoV2'>aquí</a>.
+        <br/>
+        <br/>Utilicé las siguientes API's para obtener los datos de las películas y los usuarios:
+        <br/>Películas: <a href='https://yts.mx/api'>yts.mx</a>
+        <br/>Usuarios: <a href='https://randomuser.me/'>random-user.me</a>
+      </p>
+    </div>
+  </div>
+  `
 }
